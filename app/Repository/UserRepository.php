@@ -12,9 +12,10 @@ class UserRepository
 {
 
     /**
-     * @param $request
+     * @param Request $request
+     * @return mixed
      */
-    public function createUser($request)
+    public function createUser(Request $request)
     {
         return User::create([
             'name' => $request->name,

@@ -16,10 +16,11 @@ class AuthController extends Controller
 {
 
     /**
-     * @param Request $request
+     * register user
+     * @param $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
+    public function register($request)
     {
         // validate of user
         $request->validate([
