@@ -8,14 +8,15 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+
 class UserRepository
 {
 
     /**
-     * @param Request $request
+     * @param $request
      * @return mixed
      */
-    public function createUser(Request $request)
+    public function createUser($request)
     {
         return User::create([
             'name' => $request->name,
