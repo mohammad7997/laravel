@@ -8,6 +8,7 @@ use \App\Models\User;
 use \Laravel\Sanctum\Sanctum;
 use \Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use \Illuminate\Http\Response;
 
 class ChannelTest extends TestCase
 {
@@ -39,7 +40,7 @@ class ChannelTest extends TestCase
     public function test_get_all_list_of_channel()
     {
         $response = $this->json('get', route('Channel.getList'));
-        $response->assertStatus(200);
+        $response->assertStatus(\Illuminate\Http\Response::HTTP_OK);
     }
 
     public function test_create_channel_validate()
@@ -50,7 +51,7 @@ class ChannelTest extends TestCase
         Sanctum::actingAs($userFactory);
 
         $response = $this->postJson(route('Channel.create'));
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function test_create_new_channel()
@@ -64,7 +65,7 @@ class ChannelTest extends TestCase
             'name' => 'laravel'
         ]));
 
-        $resposnse->assertStatus(201);
+        $resposnse->assertStatus(Response::HTTP_CREATED);
     }
 
 
@@ -77,7 +78,7 @@ class ChannelTest extends TestCase
 
         $channel = Channel::factory()->create();
         $response = $this->json('put', route('Channel.update', $channel->id));
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function test_update_channel()
@@ -94,7 +95,7 @@ class ChannelTest extends TestCase
 
         //$channelUpdated=\App\Models\Channel::find($channel->id);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
         //$response->assert('laravel2',$channelUpdated->name);
     }
 
@@ -107,7 +108,7 @@ class ChannelTest extends TestCase
 
         $channel = Channel::factory()->create();
         $response = $this->json('delete', route('Channel.delete', $channel->id));
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
 

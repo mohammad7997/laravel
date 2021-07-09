@@ -7,6 +7,7 @@ use App\Models\Channel;
 use App\Repository\ChannelRepository;
 use Illuminate\Http\Request;
 use \Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 
 class ChannelController extends Controller
@@ -20,7 +21,7 @@ class ChannelController extends Controller
     public function getListChannel()
     {
         $Channel = resolve(ChannelRepository::class)->getAllChannel();
-        return response()->json([$Channel], 200);
+        return response()->json([$Channel], Response::HTTP_OK);
     }
 
 
@@ -38,7 +39,7 @@ class ChannelController extends Controller
 
         return response()->json([
             'message' => 'Channel create successfully'
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -57,7 +58,7 @@ class ChannelController extends Controller
 
         return response()->json([
             'message' => 'update channel successfully'
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
 
@@ -71,7 +72,7 @@ class ChannelController extends Controller
 
         return response()->json([
             'message' => 'channel delete successfully'
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
 
