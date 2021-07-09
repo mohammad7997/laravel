@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repository\UserRepository;
 use Dotenv\Loader\Resolver;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -34,7 +35,7 @@ class AuthController extends Controller
 
         return response()->json([
             "message" => 'user create successfully'
-        ], 201);
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -51,7 +52,7 @@ class AuthController extends Controller
         if (Auth::attempt($request->only(['email', 'password']))) {
             return response()->json([
                 'message' => 'login successfully',
-            ], 200);
+            ], Response::HTTP_OK);
         }
         throw validationExeption::withMessage([
             'email' => 'incorrect credentials'
@@ -64,7 +65,7 @@ class AuthController extends Controller
      */
     public function showInfoUser()
     {
-        return response()->json([Auth::user()], 200);
+        return response()->json([Auth::user()], Response::HTTP_OK);
     }
 
     /**
@@ -76,7 +77,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'user logged out successfully'
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
 

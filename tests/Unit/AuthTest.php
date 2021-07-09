@@ -5,6 +5,7 @@ use \Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
+use \Illuminate\Http\Response;
 
 
 class AuthTest extends TestCase
@@ -36,7 +37,7 @@ class AuthTest extends TestCase
     public function test_register_should_be_validate()
     {
         $response = $this->postJson(route('auth.register'));
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function test_register_new_user()
@@ -47,13 +48,13 @@ class AuthTest extends TestCase
             'email'=>'mjharahi1379@gmail.com',
             'password'=>'password'
         ]));
-        $response->assertStatus(201);
+        $response->assertStatus(Response::HTTP_CREATED);
     }
 
     public function test_login_should_be_validate()
     {
         $response = $this->postJson(route('auth.login'));
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function test_login_user()
@@ -64,14 +65,14 @@ class AuthTest extends TestCase
             'email'=>$userFactory->email,
             'password'=>'password'
         ]));
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     public function test_show_info_user_login()
     {
         $userFactory=\App\Models\User::factory()->create();
         $response = $this->actingAs($userFactory)->postJson(route('auth.showInfo'));
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
 
@@ -79,6 +80,6 @@ class AuthTest extends TestCase
     {
         $userFactory=\App\Models\User::factory()->create();
         $response = $this->actingAs($userFactory)->postJson(route('auth.logout'));
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 }
