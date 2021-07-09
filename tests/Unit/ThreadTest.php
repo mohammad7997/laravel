@@ -19,7 +19,7 @@ class ThreadTest extends TestCase
         Thread::factory()->create();
 
         $response = $this->getJson(route('Thread.index'));
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     /** @test */
@@ -27,7 +27,7 @@ class ThreadTest extends TestCase
     {
         $treadFactory = Thread::factory()->create();
         $response = $this->getJson(route('Thread.show', [$treadFactory->slug]));
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     /** @test */

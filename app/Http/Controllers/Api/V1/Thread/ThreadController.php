@@ -22,18 +22,9 @@ class ThreadController extends Controller
     public function index()
     {
         $threads = resolve(ThreadRepository::class)->AllThreads();
-        return response()->json($threads, 200);
+        return response()->json($threads, Response::HTTP_OK);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
 
     /**
@@ -67,19 +58,9 @@ class ThreadController extends Controller
     public function show($slug)
     {
         $thread = resolve(ThreadRepository::class)->Thread($slug);
-        return response()->json($thread, 200);
+        return response()->json($thread, Response::HTTP_OK);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
 
     public function update(Request $request, Thread $thread)
@@ -144,6 +125,4 @@ class ThreadController extends Controller
             'message' => 'delete thread failed'
         ], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
-
-
 }
