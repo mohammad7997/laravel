@@ -79,8 +79,9 @@ class AnswerTest extends TestCase
 
     public function can_update_answer_with_user_created()
     {
-        $this->withoutExceptionHandling();
+
         $userFactory = User::factory()->create();
+        Sanctum::actingAs($userFactory);
         $threadFactory = Thread::factory()->create();
         $answerFactory = Answer::factory()->create([
             'user_id' => $userFactory->id,
