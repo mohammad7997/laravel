@@ -69,6 +69,10 @@ class ChannelTest extends TestCase
     }
 
 
+
+
+
+
     public function test_update_channel_validate()
     {
         $this->RoleAndPermission();

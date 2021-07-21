@@ -24,9 +24,9 @@ class AnswerFactory extends Factory
     public function definition()
     {
         return [
-            'content'=>$this->faker->text,
-            'thread_id'=>Thread::factory()->create()->id,
-            'user_id'=>User::factory()->create()->id,
+            'content' => $this->faker->text,
+            'thread_id' => Thread::factory()->create()->id,
+            'user_id' => User::factory()->create()->id,
         ];
     }
 }

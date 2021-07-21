@@ -35,7 +35,7 @@ class AnswerTest extends TestCase
     {
         $threadFactory = Thread::factory()->create();
         $answerFactory = Answer::factory()->create();
-        $userFactory=User::factory()->create();
+        $userFactory = User::factory()->create();
         Sanctum::actingAs($userFactory);
         $response = $this->postJson(route('Answer.store', $threadFactory->id), [
             'content' => $answerFactory->content,
@@ -48,27 +48,28 @@ class AnswerTest extends TestCase
 
     public function update_answer_can_be_validate()
     {
-        $answerFactory=Answer::factory()->create();
+        $answerFactory = Answer::factory()->create();
 
-        $response=$this->postJson(route('Answer.update',$answerFactory->id),[]);
+        $response = $this->postJson(route('Answer.update', $answerFactory->id), []);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrors(['content','user_id']);
+        $response->assertJsonValidationErrors(['content', 'user_id']);
 
     }
+
     /** @test */
 
     public function can_update_answer_who_created()
     {
-        $userFactory=User::factory()->create();
-        $threadFactory=Thread::factory()->create();
-        $answerFactory=Answer::factory()->create([
-            'user_id'=>$userFactory->id,
-            'thread_id'=>$threadFactory->id,
+        $userFactory = User::factory()->create();
+        $threadFactory = Thread::factory()->create();
+        $answerFactory = Answer::factory()->create([
+            'user_id' => $userFactory->id,
+            'thread_id' => $threadFactory->id,
         ]);
 
-        $response=$this->postJson(route('Answer.update',$answerFactory->id),[
-            'content'=>'foo',
-            'user_id'=>$userFactory->id+1,
+        $response = $this->postJson(route('Answer.update', $answerFactory->id), [
+            'content' => 'foo',
+            'user_id' => $userFactory->id + 1,
         ]);
         $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -79,17 +80,36 @@ class AnswerTest extends TestCase
     public function can_update_answer_with_user_created()
     {
         $this->withoutExceptionHandling();
-        $userFactory=User::factory()->create();
-        $threadFactory=Thread::factory()->create();
-        $answerFactory=Answer::factory()->create([
-            'user_id'=>$userFactory->id,
-            'thread_id'=>$threadFactory->id,
+        $userFactory = User::factory()->create();
+        $threadFactory = Thread::factory()->create();
+        $answerFactory = Answer::factory()->create([
+            'user_id' => $userFactory->id,
+            'thread_id' => $threadFactory->id,
         ]);
 
-        $response=$this->postJson(route('Answer.update',$answerFactory->id),[
-            'content'=>'foo',
-            'user_id'=>$userFactory->id,
+        $response = $this->postJson(route('Answer.update', $answerFactory->id), [
+            'content' => 'foo',
+            'user_id' => $userFactory->id,
         ]);
         $response->assertStatus(Response::HTTP_OK);
     }
+
+
+    /** @test */
+    public function can_own_delete_answer()
+    {
+        $userFactory = User::factory()->create();
+        Sanctum::actingAs($userFactory);
+
+        $answerFactory = Answer::factory()->create([
+            'user_id' => $userFactory->id,
+        ]);
+
+        $response = $this->deleteJson(route('Answer.delete', $answerFactory->id));
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJson([
+            'message' => 'delete answer successfully'
+        ]);
+    }
+
 }

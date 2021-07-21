@@ -44,4 +44,13 @@ class AnswerRepository
             'content'=>$request->input('content'),
         ]);
     }
+
+    /**
+     * delete Answer
+     * @param $answer
+     */
+    public function deleteAnswer($answer)
+    {
+        $answer->delete();
+    }
 }

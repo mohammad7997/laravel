@@ -56,12 +56,12 @@ class AnswerController extends Controller
         //
         $request->validate([
             'content' => 'required',
-            'user_id'=> 'required'
+            'user_id' => 'required'
         ]);
 
-        if ($answer->user_id==$request->user_id) {
+        if ($answer->user_id == $request->user_id) {
 
-            resolve(AnswerRepository::class)->updateAnswer($answer,$request);
+            resolve(AnswerRepository::class)->updateAnswer($answer, $request);
 
             return response()->json([
                 'message' => 'update answer successfully',
@@ -70,18 +70,16 @@ class AnswerController extends Controller
 
         return response()->json([
             'message' => 'update answer failed',
-        ],Response::HTTP_INTERNAL_SERVER_ERROR);
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(Answer $answer)
     {
-        //
+        resolve(AnswerRepository::class)->deleteAnswer($answer);
+        return \response()->json([
+            'message' => 'delete answer successfully'
+        ], Response::HTTP_OK);
     }
 
 }
